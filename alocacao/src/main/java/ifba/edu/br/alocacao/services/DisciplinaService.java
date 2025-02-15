@@ -6,39 +6,49 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import ifba.edu.br.alocacao.dtos.DisciplinaDTO;
+import ifba.edu.br.alocacao.dtos.UsuarioDTO;
 import ifba.edu.br.alocacao.entities.Disciplina;
+import ifba.edu.br.alocacao.entities.Usuario;
 import ifba.edu.br.alocacao.repository.DisciplinaRepository;
+import ifba.edu.br.alocacao.repository.UsuarioRepository;
 
 @Service
 public class DisciplinaService {
-    private final DisciplinaRepository disciplinaRepository;
+	private final DisciplinaRepository disciplinaRepository;
+	private final UsuarioRepository usuarioRepository;
 
-    public DisciplinaService(DisciplinaRepository disciplinaRepository) {
-        this.disciplinaRepository = disciplinaRepository;
-    }
+	public DisciplinaService(DisciplinaRepository disciplinaRepository, UsuarioRepository usuarioRepository) {
+		this.disciplinaRepository = disciplinaRepository;
+		this.usuarioRepository = usuarioRepository;
+	}
 
-    public DisciplinaDTO save(DisciplinaDTO dto) {
-        Disciplina disciplina = new Disciplina();
-        disciplina.setNome(dto.nome());
-        disciplina.setCodigoTurma(dto.codigoTurma());
-        disciplina.setNomeProfessor(dto.nomeProfessor());
-        return new DisciplinaDTO(disciplinaRepository.save(disciplina));
-    }
+	public DisciplinaDTO save(DisciplinaDTO dto) {
+		Disciplina disciplina = new Disciplina();
+		disciplina.setNome(dto.nome());
+		disciplina.setCodigoTurma(dto.codigoTurma());
+		disciplina.setNomeProfessor(dto.nomeProfessor());
+		return new DisciplinaDTO(disciplinaRepository.save(disciplina));
+	}
 
-    public List<DisciplinaDTO> findAll() {
-        return disciplinaRepository.findAll().stream().map(DisciplinaDTO::new).collect(Collectors.toList());
-    }
+	public List<DisciplinaDTO> findAll() {
+		return disciplinaRepository.findAll().stream().map(DisciplinaDTO::new).collect(Collectors.toList());
+	}
 
-    public DisciplinaDTO update(DisciplinaDTO dto) {
-        Disciplina disciplina = new Disciplina();
-        disciplina.setId(dto.id());
-        disciplina.setNome(dto.nome());
-        disciplina.setCodigoTurma(dto.codigoTurma());
-        disciplina.setNomeProfessor(dto.nomeProfessor());
-        return new DisciplinaDTO(disciplinaRepository.save(disciplina));
-    }
+	public DisciplinaDTO update(DisciplinaDTO dto) {
+		Disciplina disciplina = new Disciplina();
+		disciplina.setId(dto.id());
+		disciplina.setNome(dto.nome());
+		disciplina.setCodigoTurma(dto.codigoTurma());
+		disciplina.setNomeProfessor(dto.nomeProfessor());
+		return new DisciplinaDTO(disciplinaRepository.save(disciplina));
+	}
 
-    public void delete(Long id) {
-        disciplinaRepository.deleteById(id);
+	public void delete(Long id) {
+		disciplinaRepository.deleteById(id);
+	}
+	
+	public List<UsuarioDTO> getUsuariosByDisciplina(Long disciplinaId) {
+        Disciplina disciplina = disciplinaRepository.findById(disciplinaId).orElseThrow();
+        return disciplina.getUsuarios().stream().map(UsuarioDTO::new).collect(Collectors.toList());
     }
 }

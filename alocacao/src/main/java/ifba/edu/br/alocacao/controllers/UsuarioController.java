@@ -14,40 +14,40 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ifba.edu.br.alocacao.dtos.DisciplinaDTO;
 import ifba.edu.br.alocacao.dtos.UsuarioDTO;
-import ifba.edu.br.alocacao.services.DisciplinaService;
+import ifba.edu.br.alocacao.services.UsuarioService;
 
 @RestController
-@RequestMapping("/disciplinas")
-public class DisciplinaController {
-    private final DisciplinaService disciplinaService;
+@RequestMapping("/usuarios")
+public class UsuarioController {
+    private final UsuarioService usuarioService;
 
-    public DisciplinaController(DisciplinaService disciplinaService) {
-        this.disciplinaService = disciplinaService;
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
     }
 
-    @PostMapping
-    public DisciplinaDTO create(@RequestBody DisciplinaDTO dto) {
-        return disciplinaService.save(dto);
+    @PostMapping("/cadastro")
+    public UsuarioDTO create(@RequestBody UsuarioDTO dto) {
+        return usuarioService.save(dto);
     }
 
     @GetMapping
-    public List<DisciplinaDTO> getAll() {
-        return disciplinaService.findAll();
+    public List<UsuarioDTO> getAll() {
+        return usuarioService.findAll();
     }
 
     @PutMapping
-    public DisciplinaDTO update(@RequestBody DisciplinaDTO dto) {
-        return disciplinaService.update(dto);
+    public UsuarioDTO update(@RequestBody UsuarioDTO dto) {
+        return usuarioService.update(dto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        disciplinaService.delete(id);
+        usuarioService.delete(id);
         return ResponseEntity.noContent().build();
     }
     
-    @GetMapping("/{id}/usuarios")
-    public List<UsuarioDTO> getUsuariosByDisciplina(@PathVariable Long id) {
-        return disciplinaService.getUsuariosByDisciplina(id);
+    @GetMapping("/{id}/disciplinas")
+    public List<DisciplinaDTO> getDisciplinasByUsuario(@PathVariable Long id) {
+        return usuarioService.getDisciplinasByUsuario(id);
     }
 }

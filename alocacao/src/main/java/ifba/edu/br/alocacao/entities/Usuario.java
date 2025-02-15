@@ -13,6 +13,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +32,8 @@ public class Usuario implements UserDetails{
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private Role role;
-	
+	@ManyToMany(mappedBy = "usuarios")
+	private List<Disciplina> disciplinas;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
