@@ -30,6 +30,8 @@ public class Usuario implements UserDetails{
 	private Long id;
 	private String email;
 	private String password;
+	private String nome;
+
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	@ManyToMany(mappedBy = "usuarios")
@@ -49,4 +51,6 @@ public class Usuario implements UserDetails{
 	public String getUsername() {
 		return this.email;
 	}
+
+	
 }
