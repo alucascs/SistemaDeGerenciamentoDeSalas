@@ -47,6 +47,27 @@ public class DisciplinaService {
 		disciplinaRepository.deleteById(id);
 	}
 	
+	public DisciplinaDTO vincularUsuario(Long disciplinaId, Long usuarioId) {
+        Disciplina disciplina = disciplinaRepository.findById(disciplinaId)
+                .orElseThrow(() -> new RuntimeException("Disciplina não encontrada"));
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        disciplina.getUsuarios().add(usuario);
+        return new DisciplinaDTO(disciplinaRepository.save(disciplina));
+    }
+	
+	public DisciplinaDTO desvincularUsuario(Long disciplinaId, Long usuarioId) {
+        Disciplina disciplina = disciplinaRepository.findById(disciplinaId)
+                .orElseThrow(() -> new RuntimeException("Disciplina não encontrada"));
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        disciplina.getUsuarios().remove(usuario);
+        return new DisciplinaDTO(disciplinaRepository.save(disciplina));
+    }
+
+	
 	public List<UsuarioDTO> getUsuariosByDisciplina(Long disciplinaId) {
         Disciplina disciplina = disciplinaRepository.findById(disciplinaId).orElseThrow();
         return disciplina.getUsuarios().stream().map(UsuarioDTO::new).collect(Collectors.toList());

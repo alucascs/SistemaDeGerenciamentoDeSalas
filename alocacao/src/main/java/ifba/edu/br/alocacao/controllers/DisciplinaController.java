@@ -46,6 +46,16 @@ public class DisciplinaController {
         return ResponseEntity.noContent().build();
     }
     
+    @PostMapping("/{disciplinaId}/usuarios/{usuarioId}")
+    public DisciplinaDTO vincularUsuario(@PathVariable Long disciplinaId, @PathVariable Long usuarioId) {
+        return disciplinaService.vincularUsuario(disciplinaId, usuarioId);
+    }
+    
+    @DeleteMapping("/{disciplinaId}/usuarios/{usuarioId}")
+    public DisciplinaDTO desvincularUsuario(@PathVariable Long disciplinaId, @PathVariable Long usuarioId) {
+        return disciplinaService.desvincularUsuario(disciplinaId, usuarioId);
+    }
+    
     @GetMapping("/{id}/usuarios")
     public List<UsuarioDTO> getUsuariosByDisciplina(@PathVariable Long id) {
         return disciplinaService.getUsuariosByDisciplina(id);
