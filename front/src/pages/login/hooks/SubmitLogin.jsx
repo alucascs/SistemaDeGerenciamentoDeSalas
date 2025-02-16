@@ -11,12 +11,9 @@ export function SubmitLogin(dadosLogin, erros) {
       try {
 
         const response = await efetuarLogin(dadosLogin);
-        if (response?.token) { 
-          localStorage.setItem("authToken", response.token); 
-        }
+     
         //Redirecionar pra homepage
         setMessage("Login efetuado com sucesso!");
-  
 
       }
       catch (error) {

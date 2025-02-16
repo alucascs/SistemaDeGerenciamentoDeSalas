@@ -12,6 +12,9 @@ export async function efetuarLogin(dadosLogin) {
     }
 
     const response = await API_ALOCACAO.post(Login, DadosAutenticacao);
+    if (response?.token) { 
+      localStorage.setItem("authToken", response.token); 
+    }
     return response.data;
 
   } catch (error) {
