@@ -12,8 +12,8 @@ export async function efetuarLogin(dadosLogin) {
     }
 
     const response = await API_ALOCACAO.post(Login, DadosAutenticacao);
-    if (response?.token) { 
-      localStorage.setItem("authToken", response.token); 
+    if (response?.data.token) { 
+      sessionStorage.setItem("authToken", response.data.token); 
     }
     return response.data;
 
