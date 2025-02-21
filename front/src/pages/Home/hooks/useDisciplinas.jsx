@@ -1,20 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import Swal from "sweetalert2";
+import { API_ALOCACAO } from "../../../services/api";
+import { GetDisciplinasUsuario } from "../../../rotas/RotasUsuario";
+import { UserContext } from '../../../services/context/user';
 
-export function useDisciplinas() {
-  const [disciplinas, setDisciplinas] = useState([]);
+function useDisciplinas(user) {
+    const [disciplinas, setDisciplinas] = useState([]);
 
-  useEffect(() => {
-    const GetDisciplinasUsuario = async () => {
-      const data = [
-        { id: 1, nome: 'Matemática', codigoTurma: '2025.1', professor: 'zézinho' },
-        { id: 2, nome: 'Lógica de Programação', codigoTurma: '2025.1', professor: 'jorginho' },
-        { id: 3, nome: 'Química', codigoTurma: '2025.1', professor: 'mariazinha' },
-      ];
-      setDisciplinas(data);
-    };
+    useEffect(() => {
+        const getDisciplinas = async () => {
+            try {
+                const uriCompleta = GetDisciplinasUsuario.replace("{id}", user.id);
+                const response = await API_ALOCACAO.get(uriCompleta);
+                setDisciplinas(response.data || []);
+            } catch (error) {
+                Swal.fire("Erro", "Falha ao carregar disciplinas!", "error");
+            }
+        };
 
-    GetDisciplinasUsuario();
-  }, []);
+        getDisciplinas();
+    }, [user]);
 
-  return disciplinas;
+    return disciplinas;
 }
+
+export default useDisciplinas;

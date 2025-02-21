@@ -12,7 +12,11 @@ export async function efetuarLogin(dadosLogin, setUser) {
 
     if (response?.data.token) {
       sessionStorage.setItem("authToken", response.data.token);
-      setUser(response.data.user);
+
+      const { senha, ...userWithoutPassword } = response.data.user;
+
+      sessionStorage.setItem("user", JSON.stringify(userWithoutPassword));
+      setUser(userWithoutPassword); 
     }
     return response.data;
 
