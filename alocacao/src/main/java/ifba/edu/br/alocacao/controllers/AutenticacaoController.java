@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ifba.edu.br.alocacao.dtos.DadosAutenticacao;
 import ifba.edu.br.alocacao.dtos.DadosToken;
+import ifba.edu.br.alocacao.dtos.UsuarioDTO;
 import ifba.edu.br.alocacao.entities.Usuario;
 import ifba.edu.br.alocacao.services.JWTokenService;
 
@@ -31,6 +32,6 @@ public class AutenticacaoController {
 		var authenticationToken = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
 		var autentication = manager.authenticate(authenticationToken);
 		var token = tokenService.gerarToken((Usuario) autentication.getPrincipal());
-		return ResponseEntity.ok(new DadosToken(token));
+		return ResponseEntity.ok(new DadosToken(token, new UsuarioDTO((Usuario) autentication.getPrincipal())));
 	}
 }
