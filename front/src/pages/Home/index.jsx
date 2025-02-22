@@ -1,25 +1,18 @@
 import { useAlocacoes } from './hooks/useAlocacoes';
-import useDisciplinas from './hooks/useDisciplinas';
+import { useDisciplinas } from './hooks/useDisciplinas';
 import { TabelaAlocacoes } from './components/TabelaAlocacoes';
 import { ListaDisciplinas } from './components/ListaDisciplinas';
-import vincularDisciplina from './hooks/VincularDisciplina';
-import { useContext, useState } from 'react';
+import { vincularDisciplina } from './hooks/VincularDisciplina';
 import { UserContext } from '../../services/context/user';
+import { useContext, useEffect, useState } from 'react';
 
 function Home() {
+    const { user } = useContext(UserContext);
+    const [disciplinas, setDisciplinas] = useState([]);
+    const [alocacoes, setAlocacoes] = useState([]);
 
-  const { user } = useContext(UserContext);
-  const [loading, setLoading] = useState(true);
-  
-    const alocacoes = useAlocacoes();
-    const disciplinas = useDisciplinas(user);
-  
-
-    useState(() => {
-        if (disciplinas !== undefined) {
-            setLoading(false);
-        }
-    }, [disciplinas]);
+    useDisciplinas(user, setDisciplinas);
+    useAlocacoes(setAlocacoes, disciplinas);
 
     const handleVincular = () => {
         vincularDisciplina(user);
@@ -35,9 +28,7 @@ function Home() {
 
                 <div className="col-lg-4 col-md-12 col-sm-12">
                     <h3 className="mb-3">Minhas Disciplinas:</h3>
-                    {loading ? (
-                        <p className="text-center text-muted">Carregando disciplinas...</p>
-                    ) : disciplinas.length === 0 ? (
+                    {disciplinas.length === 0 ? (
                         <p className="text-center text-muted">
                             Você ainda não tem disciplinas vinculadas, clique em vincular.
                         </p>

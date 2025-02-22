@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
-export function useAlocacoes() {
-  const [alocacoes, setAlocacoes] = useState([]);
-
+export function useAlocacoes(setAlocacoes, disciplinas) {
   useEffect(() => {
     const getAlocacoes = async () => {
       const data = [
@@ -17,7 +15,5 @@ export function useAlocacoes() {
     };
 
     getAlocacoes();
-  }, []);
-
-  return alocacoes;
+  }, [disciplinas]);
 }

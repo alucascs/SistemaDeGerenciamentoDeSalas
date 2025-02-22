@@ -2,7 +2,7 @@ import Swal from "sweetalert2";
 import { API_ALOCACAO } from "../../../services/api";
 import { ListarDisciplinas, VincularDesvincularUsuario } from "../../../rotas/RotasDisciplinas";
 
-async function vincularDisciplina(user) {
+export async function vincularDisciplina(user) {
     try {
         const response = await API_ALOCACAO.get(ListarDisciplinas);
         const disciplinas = response.data;
@@ -49,5 +49,3 @@ async function vincularDisciplina(user) {
         Swal.fire("Erro", "Falha ao carregar disciplinas!", "error");
     }
 }
-
-export default vincularDisciplina;
