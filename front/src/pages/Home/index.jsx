@@ -10,12 +10,13 @@ function Home() {
     const { user } = useContext(UserContext);
     const [disciplinas, setDisciplinas] = useState([]);
     const [alocacoes, setAlocacoes] = useState([]);
+    const [reloadDisciplinas, setReloadDisciplinas] = useState(false);
 
-    useDisciplinas(user, setDisciplinas);
+    useDisciplinas(user, setDisciplinas, reloadDisciplinas);
     useAlocacoes(setAlocacoes, disciplinas);
 
     const handleVincular = () => {
-        vincularDisciplina(user);
+        vincularDisciplina(user, setReloadDisciplinas);
     };
 
     return (
@@ -33,7 +34,7 @@ function Home() {
                             Você ainda não tem disciplinas vinculadas, clique em vincular.
                         </p>
                     ) : (
-                        <ListaDisciplinas disciplinas={disciplinas} />
+                        <ListaDisciplinas disciplinas={disciplinas} setReloadDisciplinas={setReloadDisciplinas} />
                     )}
                     <button
                         className="btn btn-primary mt-3 w-100"

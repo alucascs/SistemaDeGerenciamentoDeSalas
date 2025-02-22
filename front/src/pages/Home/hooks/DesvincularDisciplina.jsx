@@ -2,7 +2,7 @@ import Swal from 'sweetalert2';
 import { API_ALOCACAO } from "../../../services/api";
 import { VincularDesvincularUsuario } from "../../../rotas/RotasDisciplinas";
 
-export async function DesvincularDisciplina(user, id, nome) {
+export async function DesvincularDisciplina(user, id, nome, setReloadDisciplinas) {
     Swal.fire({
         title: `Deseja remover a disciplina "${nome}"?`,
         text: "Esta ação não pode ser desfeita!",
@@ -27,6 +27,7 @@ export async function DesvincularDisciplina(user, id, nome) {
                     `A disciplina "${nome}" foi desvinculada com sucesso.`,
                     "success"
                 );
+                setReloadDisciplinas(prevState => !prevState);
             } catch (error) {
                 Swal.fire("Erro", "Falha ao desvincular a disciplina.", "error");
             }

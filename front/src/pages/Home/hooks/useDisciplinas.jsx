@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import { API_ALOCACAO } from "../../../services/api";
 import { GetDisciplinasUsuario } from "../../../rotas/RotasUsuario";
 
-export function useDisciplinas(user, setDisciplinas) {
+export function useDisciplinas(user, setDisciplinas, reloadDisciplinas) {
     useEffect(() => {
         const getDisciplinas = async () => {
             try {
@@ -16,7 +16,7 @@ export function useDisciplinas(user, setDisciplinas) {
         };
 
         getDisciplinas();
-    }, [user]);
+    }, [user, setDisciplinas, reloadDisciplinas]);
 }
 
 

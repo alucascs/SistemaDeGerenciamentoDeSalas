@@ -4,7 +4,7 @@ import { BiTrash } from "react-icons/bi";
 import { DesvincularDisciplina } from '../../hooks/DesvincularDisciplina'; 
 import { UserContext } from '../../../../services/context/user';  
 
-export const ListaDisciplinas = ({ disciplinas }) => {
+export const ListaDisciplinas = ({ disciplinas, setReloadDisciplinas})=> {
   const { user } = useContext(UserContext); 
 
   return (
@@ -30,7 +30,7 @@ export const ListaDisciplinas = ({ disciplinas }) => {
               {disc.nome}
               <button
                 className="btn btn-danger btn-sm"
-                onClick={() => DesvincularDisciplina(user, disc.id, disc.nome)} 
+                onClick={() => DesvincularDisciplina(user, disc.id, disc.nome, setReloadDisciplinas)} 
               >
                 <BiTrash size={20} color="white" />
               </button>

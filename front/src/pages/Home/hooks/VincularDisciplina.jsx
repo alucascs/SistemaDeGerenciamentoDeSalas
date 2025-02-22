@@ -2,7 +2,7 @@ import Swal from "sweetalert2";
 import { API_ALOCACAO } from "../../../services/api";
 import { ListarDisciplinas, VincularDesvincularUsuario } from "../../../rotas/RotasDisciplinas";
 
-export async function vincularDisciplina(user) {
+export async function vincularDisciplina(user, setReloadDisciplinas) {
     try {
         const response = await API_ALOCACAO.get(ListarDisciplinas);
         const disciplinas = response.data;
@@ -41,8 +41,10 @@ export async function vincularDisciplina(user) {
                     .replace("{usuarioId}", user.id);
 
                 API_ALOCACAO.post(urlCompleta)
-                    .then(() => Swal.fire("Sucesso!", "Disciplina vinculada com sucesso.", "success"))
-                    .catch(() => Swal.fire("Erro", "Falha ao vincular disciplina.", "error"));
+                    .then(() => {
+                        Swal.fire("Sucesso!", "Disciplina vinculada com sucesso.", "success");
+                        setReloadDisciplinas(prevState => !prevState);
+                    }).catch(() => Swal.fire("Erro", "Falha ao vincular disciplina.", "error"));
             }
         });
     } catch (error) {
