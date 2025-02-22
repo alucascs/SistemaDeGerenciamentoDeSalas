@@ -41,6 +41,10 @@ public class AulaService {
     public List<AulaDTO> listarAulas() {
         return aulaRepository.findAll().stream().map(AulaDTO::new).collect(Collectors.toList());
     }
+    
+    public List<AulaDTO> listarAulasPorDisciplinas(List<Long> disciplinasIds) {
+    	return aulaRepository.findByDisciplinaIdIn(disciplinasIds).stream().map(AulaDTO::new).toList();
+    }
 
     public void excluirAula(Long id) {
         aulaRepository.deleteById(id);

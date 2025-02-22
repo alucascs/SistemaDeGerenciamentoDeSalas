@@ -32,6 +32,11 @@ public class AulaController {
     public List<AulaDTO> listarAulas() {
         return aulaService.listarAulas();
     }
+    
+    @PostMapping("/listarPorDisciplinas")
+    public List<AulaDTO> listarAulasPorDisciplinas(@RequestBody List<Long> disciplinasIds) {
+        return aulaService.listarAulasPorDisciplinas(disciplinasIds);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluirAula(@PathVariable Long id) {
