@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NotFound from "../pages/NotFound";
-import Login from "../pages/Login";
+import Login from "../pages/login/Login"
 import Home from "../pages/Home";
 import RotaProtegida from "./RotasProtegidas";
 
