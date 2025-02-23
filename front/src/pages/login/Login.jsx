@@ -19,9 +19,7 @@ function Login() {
 	const { handleSubmitCadastro, messageErrorCadastro } = SubmitCadastro(dadosCadastro, errosCadastro);
 
 	return (
-
 		<>
-
 			<div className={styles.contentLogin} >
 				<div className={styles.containerHeaderLogin}>
 					<h2 className={styles.h2Login}>Bem-vindo ao gerenciador de salas do IFBA</h2>
@@ -76,7 +74,7 @@ function Login() {
 							<div className={styles.radioGroupLogin}>
 								<label>
 									<input
-										
+
 										type="radio"
 										name="RoleUsuario"
 										value="ALUNO"
@@ -87,7 +85,7 @@ function Login() {
 								</label>
 								<label>
 									<input
-										
+
 										type="radio"
 										name="RoleUsuario"
 										value="PROFESSOR"
@@ -146,23 +144,9 @@ function Login() {
 							{messageErrorLogin && <div>{messageErrorLogin}</div>}
 						</form>
 					</div>
-
-
-				</div>;
-
+				</div>
 			</div>
-
-
-
-
-
 		</>
-
-
-
-
-
-
 	)
 }
 
