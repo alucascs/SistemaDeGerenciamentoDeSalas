@@ -8,12 +8,17 @@ import Navbar from "../components/Navbar";
 function Rotas() {
     return (
         <BrowserRouter>
-            <Navbar/>
             <Routes>
                 <Route path="/login" element={<Login />} />
 
                 <Route element={<RotaProtegida/> }>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={
+                        <>
+                        <Navbar/>
+                        <Home />
+                        </>
+                        }
+                     />
                     <Route path="/home" element={<Home />} />
                 </Route>
 
