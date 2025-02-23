@@ -19,7 +19,13 @@ function Rotas() {
                         </>
                         }
                      />
-                    <Route path="/home" element={<Home />} />
+                    <Route path="/home" element={
+                        <>
+                        <Navbar/>
+                        <Home />
+                        </>
+                        }
+                     />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />
