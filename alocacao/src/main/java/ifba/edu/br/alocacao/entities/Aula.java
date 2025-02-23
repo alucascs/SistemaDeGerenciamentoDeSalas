@@ -1,6 +1,5 @@
 package ifba.edu.br.alocacao.entities;
 
-import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 import jakarta.persistence.Column;

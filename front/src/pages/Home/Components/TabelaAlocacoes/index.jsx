@@ -1,5 +1,5 @@
 // components/TabelaAlocacoes.js
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const diasSemana = ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira'];
 const horarios = [
@@ -12,6 +12,9 @@ const horarios = [
 ];
 
 export const TabelaAlocacoes = ({ alocacoes }) => {
+  useEffect(() => {
+    renderTabela();
+  }, [alocacoes]);
   const renderTabela = () => {
     return horarios.map((intervalo) => (
       <tr key={`${intervalo.inicio}-${intervalo.fim}`}>
@@ -19,9 +22,9 @@ export const TabelaAlocacoes = ({ alocacoes }) => {
         {diasSemana.map((dia) => {
           const alocacao = alocacoes.find(
             (a) =>
-              a.diaSemana === dia &&
-              a.horario >= intervalo.inicio &&
-              a.horario < intervalo.fim
+              a.diaSemana === dia.split('-')[0].toUpperCase() &&
+              a.horarioInicio >= intervalo.inicio &&
+              a.horarioInicio < intervalo.fim
           );
 
           return (

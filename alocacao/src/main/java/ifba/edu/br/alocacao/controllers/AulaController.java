@@ -3,6 +3,7 @@ package ifba.edu.br.alocacao.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import ifba.edu.br.alocacao.services.AulaService;
 
 @RestController
 @RequestMapping("/aulas")
+@CrossOrigin(origins = "*") 
 public class AulaController {
     private final AulaService aulaService;
 
@@ -32,6 +34,7 @@ public class AulaController {
     public List<AulaDTO> listarAulas() {
         return aulaService.listarAulas();
     }
+    
     
     @PostMapping("/listarPorDisciplinas")
     public List<AulaDTO> listarAulasPorDisciplinas(@RequestBody List<Long> disciplinasIds) {

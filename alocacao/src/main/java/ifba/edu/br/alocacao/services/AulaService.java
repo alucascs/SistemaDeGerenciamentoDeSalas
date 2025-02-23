@@ -26,9 +26,9 @@ public class AulaService {
     }
 
     public AulaDTO alocarAula(AulaDTO dto) {
-    	Disciplina disciplina = disciplinaRepository.findById(dto.disciplinaId())
+    	Disciplina disciplina = disciplinaRepository.findById(dto.disciplina().id())
                 .orElseThrow(() -> new RuntimeException("Disciplina não encontrada"));
-        Sala sala = salaRepository.findById(dto.salaId())
+        Sala sala = salaRepository.findById(dto.sala().id())
                 .orElseThrow(() -> new RuntimeException("Sala não encontrada"));
 
         if (conflitoDeHorario(dto)) {
@@ -54,7 +54,7 @@ public class AulaService {
         List<Aula> aulasNaSala = aulaRepository.findAll();
         
         return aulasNaSala.stream().anyMatch(a -> 
-            a.getSala().getId().equals(dto.salaId()) &&
+            a.getSala().getId().equals(dto.sala().id()) &&
             a.getDiaSemana().equals(dto.diaSemana()) &&
             ((dto.horarioInicio().isAfter(a.getHorarioInicio()) && dto.horarioInicio().isBefore(a.getHorarioInicio().plusMinutes(a.getDuracao()))) ||
              (a.getHorarioInicio().isAfter(dto.horarioInicio()) && a.getHorarioInicio().isBefore(dto.horarioInicio().plusMinutes(dto.duracao()))))

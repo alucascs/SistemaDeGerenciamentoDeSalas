@@ -4,11 +4,9 @@ import java.time.LocalTime;
 
 import ifba.edu.br.alocacao.entities.Aula;
 import ifba.edu.br.alocacao.entities.DiaDaSemana;
-import ifba.edu.br.alocacao.entities.Disciplina;
-import ifba.edu.br.alocacao.entities.Sala;
 
-public record AulaDTO(Long id, Long disciplinaId, Long salaId, DiaDaSemana diaSemana, LocalTime horarioInicio, int duracao) {
+public record AulaDTO(Long id, DisciplinaDTO disciplina, SalaDTO sala, DiaDaSemana diaSemana, LocalTime horarioInicio, int duracao) {
     public AulaDTO(Aula aula) {
-        this(aula.getId(), aula.getDisciplina().getId(), aula.getSala().getId(), aula.getDiaSemana(), aula.getHorarioInicio(), aula.getDuracao());
+        this(aula.getId(), new DisciplinaDTO(aula.getDisciplina()), new SalaDTO(aula.getSala()), aula.getDiaSemana(), aula.getHorarioInicio(), aula.getDuracao());
     }
 }

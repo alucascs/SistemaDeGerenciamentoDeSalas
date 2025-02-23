@@ -16,7 +16,7 @@ function Home() {
     useAlocacoes(setAlocacoes, disciplinas);
 
     const handleVincular = () => {
-        vincularDisciplina(user, setReloadDisciplinas);
+        vincularDisciplina(user, disciplinas, setReloadDisciplinas);
     };
 
     return (

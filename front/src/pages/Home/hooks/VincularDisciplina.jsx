@@ -2,11 +2,12 @@ import Swal from "sweetalert2";
 import { API_ALOCACAO } from "../../../services/api";
 import { ListarDisciplinas, VincularDesvincularUsuario } from "../../../rotas/RotasDisciplinas";
 
-export async function vincularDisciplina(user, setReloadDisciplinas) {
+export async function vincularDisciplina(user, disciplinasAtuais, setReloadDisciplinas) {
     try {
         const response = await API_ALOCACAO.get(ListarDisciplinas);
-        const disciplinas = response.data;
-
+        const disciplinas = response.data.filter(disc =>
+            !disciplinasAtuais.some(atual => atual.id === disc.id)
+        );
         if (!disciplinas.length) {
             return Swal.fire("Erro", "Nenhuma disciplina disponível!", "error");
         }
@@ -17,8 +18,8 @@ export async function vincularDisciplina(user, setReloadDisciplinas) {
                 <select id="select-disciplina" class="swal2-input">
                     <option value="" disabled selected>Selecione uma disciplina</option>
                     ${disciplinas
-                        .map(disc => `<option value="${disc.id}">${disc.nome}</option>`)
-                        .join("")}
+                    .map(disc => `<option value="${disc.id}">${disc.nome}</option>`)
+                    .join("")}
                 </select>
             `,
             showCancelButton: true,
