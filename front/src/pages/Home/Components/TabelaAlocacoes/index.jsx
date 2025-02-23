@@ -31,8 +31,8 @@ export const TabelaAlocacoes = ({ alocacoes }) => {
             <td key={dia}>
               {alocacao ? (
                 <>
-                  <div><strong>{alocacao.disciplina}</strong></div>
-                  <div>{alocacao.sala}</div>
+                  <div><strong>{alocacao.disciplina.codigoTurma + ' - ' + alocacao.disciplina.nome}</strong></div>
+                  <div>{alocacao.sala.codigo + ' - ' + alocacao.sala.nome}</div>
                 </>
               ) : (
                 <span>Sem aula</span>
