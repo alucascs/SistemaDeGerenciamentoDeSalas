@@ -39,7 +39,7 @@ export function CadastroValidacao() {
   });
 
   const handleChangeCadastro = (e) => {
-    e.preventDefault();
+
     const { name, value } = e.target;
 
     setDadosCadastro((prev) => ({

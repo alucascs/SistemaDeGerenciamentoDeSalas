@@ -76,7 +76,7 @@ function Login() {
 							<div className={styles.radioGroupLogin}>
 								<label>
 									<input
-										className={styles.inputLogin}
+										
 										type="radio"
 										name="RoleUsuario"
 										value="ALUNO"
@@ -87,7 +87,7 @@ function Login() {
 								</label>
 								<label>
 									<input
-										className={styles.inputLogin}
+										
 										type="radio"
 										name="RoleUsuario"
 										value="PROFESSOR"
