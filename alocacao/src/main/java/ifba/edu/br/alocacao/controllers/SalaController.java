@@ -36,6 +36,12 @@ public class SalaController {
         return salaService.findAll();
     }
 
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SalaDTO> getByID(@PathVariable Long id) {
+        return salaService.findByID(id);
+    }
+    
     @PutMapping
     public SalaDTO update(@RequestBody SalaDTO dto) {
         return salaService.update(dto);

@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ifba.edu.br.alocacao.dtos.DisciplinaDTO;
 import ifba.edu.br.alocacao.dtos.UsuarioDTO;
+import ifba.edu.br.alocacao.entities.Role;
 import ifba.edu.br.alocacao.entities.Usuario;
 import ifba.edu.br.alocacao.repository.UsuarioRepository;
 
@@ -40,7 +41,7 @@ public class UsuarioService {
 	}
 
     public List<UsuarioDTO> findAll() {
-        return usuarioRepository.findAll().stream().map(UsuarioDTO::new).collect(Collectors.toList());
+        return usuarioRepository.findAll().stream().map(UsuarioDTO::new).toList();
     }
 
 
@@ -50,6 +51,10 @@ public class UsuarioService {
     
     public List<DisciplinaDTO> getDisciplinasByUsuario(Long usuarioId) {
 		Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow();
-		return usuario.getDisciplinas().stream().map(DisciplinaDTO::new).collect(Collectors.toList());
+		return usuario.getDisciplinas().stream().map(DisciplinaDTO::new).toList();
+	}
+
+	public List<UsuarioDTO> findAllProfessores() {
+		return usuarioRepository.findByRole(Role.PROFESSOR).stream().map(UsuarioDTO::new).toList();
 	}
 }

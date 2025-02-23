@@ -37,6 +37,11 @@ public class UsuarioController {
         return usuarioService.findAll();
     }
 
+    @GetMapping("/professores")
+    public List<UsuarioDTO> getProfessores() {
+        return usuarioService.findAllProfessores();
+    }
+    
     @PutMapping
     public UsuarioDTO update(@RequestBody UsuarioDTO dto) {
         return usuarioService.update(dto);

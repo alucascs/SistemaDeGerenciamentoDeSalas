@@ -3,6 +3,8 @@ package ifba.edu.br.alocacao.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import ifba.edu.br.alocacao.dtos.SalaDTO;
@@ -39,4 +41,12 @@ public class SalaService {
     public void delete(Long id) {
         salaRepository.deleteById(id);
     }
+
+	public ResponseEntity<SalaDTO> findByID(Long id) {
+		Sala sala = salaRepository.findById(id).orElse(null);
+		if(sala != null) {
+			return ResponseEntity.ok(new SalaDTO(sala));
+		}
+		return new ResponseEntity<SalaDTO>(HttpStatus.NOT_FOUND);
+	}
 }
