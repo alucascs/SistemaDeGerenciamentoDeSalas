@@ -8,7 +8,7 @@ function NotFound() {
                 <div className="row w-100">
                     <div className="col-12 text-center">
                         <div className={styles.four_zero_four_bg}>
-                            <h1 className="text-center">404</h1>
+                            <h1 className="text-center" style={{ position: 'relative', top: '-40px' }}>404</h1>
                         </div>
                         <div className={styles.contant_box_404}>
                             <h3 className="h2">Parece que você se perdeu!</h3>
