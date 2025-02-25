@@ -6,14 +6,15 @@ import RotaProtegida from "./RotasProtegidas";
 import Navbar from "../components/Navbar";
 import Salas from "../pages/salas/index";
 import Disciplinas from "../pages/disciplinas/index";
+import AlocacoesGerais from "../pages/AlocacoesGerais";
 
 function Rotas() {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/login" element={<Login />} />
-             
-       
+
+
                 <Route element={<RotaProtegida />}>
                     <Route path="/" element={
                         <>
@@ -29,7 +30,13 @@ function Rotas() {
                         </>
                     }
                     />
-
+                    <Route path="/alocacoes" element={
+                        <>
+                            <Navbar />
+                            <AlocacoesGerais />
+                        </>
+                    }
+                    />
                     <Route path="/salas" element={
                         <>
                             <Navbar />
@@ -37,7 +44,7 @@ function Rotas() {
                         </>
                     }
                     />
-                      <Route path="/disciplinas" element={
+                    <Route path="/disciplinas" element={
                         <>
                             <Navbar />
                             <Disciplinas />

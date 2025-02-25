@@ -13,29 +13,29 @@ const Navbar = () => {
     }, []);
 
     const handleAuth = () => {
-            sessionStorage.removeItem("authToken");
-            setIsLoggedIn(false);
-            navigate("/login");
-            Swal.fire({
-                toast: true,
-                icon: "success",
-                title: "Logout realizado com sucesso!",
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                  toast.onmouseenter = Swal.stopTimer;
-                  toast.onmouseleave = Swal.resumeTimer;
-                }
-              });
+        sessionStorage.removeItem("authToken");
+        setIsLoggedIn(false);
+        navigate("/login");
+        Swal.fire({
+            toast: true,
+            icon: "success",
+            title: "Logout realizado com sucesso!",
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
     };
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container d-flex justify-content-between align-items-center w-100">
 
-                <a className="navbar-brand fw-bold" href="#">IFBA</a>
+                <Link className="navbar-brand fw-bold" to="/">IFBA</Link>
 
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -44,10 +44,16 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <Link className="nav-link" to="/">Home</Link>
+                            <Link className="nav-link" to="/home">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/gerenciamento">Gerenciamento</Link>
+                            <Link className="nav-link" to="/alocacoes">Alocações Gerais</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/disciplinas">Disciplinas</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/salas">Salas</Link>
                         </li>
                         <li className="nav-item">
                             <button className="BtnLogout" onClick={handleAuth}>
