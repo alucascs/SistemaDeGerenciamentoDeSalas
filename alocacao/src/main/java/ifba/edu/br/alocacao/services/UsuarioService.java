@@ -1,8 +1,9 @@
 package ifba.edu.br.alocacao.services;
 import java.util.List;
-import java.util.stream.Collectors;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import ifba.edu.br.alocacao.dtos.DisciplinaDTO;
 import ifba.edu.br.alocacao.dtos.UsuarioDTO;
 import ifba.edu.br.alocacao.entities.Role;

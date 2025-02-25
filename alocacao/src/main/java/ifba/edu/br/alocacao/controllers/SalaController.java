@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ifba.edu.br.alocacao.dtos.SalaComAulasDTO;
 import ifba.edu.br.alocacao.dtos.SalaDTO;
+import ifba.edu.br.alocacao.entities.DiaDaSemana;
 import ifba.edu.br.alocacao.services.SalaService;
 
 @RestController
@@ -36,10 +38,15 @@ public class SalaController {
         return salaService.findAll();
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<SalaDTO> getByID(@PathVariable Long id) {
         return salaService.findByID(id);
+    }
+    
+    @GetMapping("/aulas/{diaSemana}")
+    public ResponseEntity<List<SalaComAulasDTO>> getSalasComAulas(@PathVariable DiaDaSemana diaSemana) {
+        List<SalaComAulasDTO> salas = salaService.getSalasComAulasPorDia(diaSemana);
+        return ResponseEntity.ok(salas);
     }
     
     @PutMapping

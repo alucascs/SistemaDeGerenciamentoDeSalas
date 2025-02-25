@@ -7,9 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import ifba.edu.br.alocacao.dtos.AulaDTO;
+import ifba.edu.br.alocacao.dtos.SalaComAulasDTO;
 import ifba.edu.br.alocacao.dtos.SalaDTO;
+import ifba.edu.br.alocacao.entities.DiaDaSemana;
 import ifba.edu.br.alocacao.entities.Sala;
 import ifba.edu.br.alocacao.repository.SalaRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class SalaService {
@@ -19,6 +23,7 @@ public class SalaService {
         this.salaRepository = salaRepository;
     }
 
+    @Transactional
     public SalaDTO save(SalaDTO dto) {
         Sala sala = new Sala();
         sala.setCodigo(dto.codigo());
@@ -30,6 +35,7 @@ public class SalaService {
         return salaRepository.findAll().stream().map(SalaDTO::new).collect(Collectors.toList());
     }
 
+    @Transactional
     public ResponseEntity<SalaDTO> update(SalaDTO dto) {
         Sala sala = new Sala();
         sala.setId(dto.id());
@@ -38,6 +44,7 @@ public class SalaService {
         return ResponseEntity.ok(new SalaDTO(salaRepository.save(sala)));
     }
 
+    @Transactional
     public void delete(Long id) {
         salaRepository.deleteById(id);
     }
@@ -48,5 +55,17 @@ public class SalaService {
 			return ResponseEntity.ok(new SalaDTO(sala));
 		}
 		return new ResponseEntity<SalaDTO>(HttpStatus.NOT_FOUND);
+	}
+	
+	public List<SalaComAulasDTO> getSalasComAulasPorDia(DiaDaSemana diaSemana) {
+	    List<Sala> salas = salaRepository.findAll();
+
+	    return salas.stream().map(sala -> {
+	        List<AulaDTO> aulas = sala.getAulas().stream()
+	            .filter(aula -> aula.getDiaSemana().equals(diaSemana)) 
+	            .map(AulaDTO::new)
+	            .collect(Collectors.toList());
+	        return new SalaComAulasDTO(new SalaDTO(sala), aulas);
+	    }).toList();
 	}
 }
