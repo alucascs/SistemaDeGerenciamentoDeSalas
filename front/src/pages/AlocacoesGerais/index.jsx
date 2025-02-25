@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { TabelaAlocacoesGerais } from "./Components/TabelaAlocacoesGeral";
+import TabelaAlocacoesGerais from "./Components/TabelaAlocacoesGeral";
 import Swal from "sweetalert2";
 import { API_ALOCACAO } from "../../services/api";
 import { ListarSalasComAulas } from "../../rotas/RotasSalas"
