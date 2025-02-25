@@ -30,12 +30,12 @@ public class SalaService {
         return salaRepository.findAll().stream().map(SalaDTO::new).collect(Collectors.toList());
     }
 
-    public SalaDTO update(SalaDTO dto) {
+    public ResponseEntity<SalaDTO> update(SalaDTO dto) {
         Sala sala = new Sala();
         sala.setId(dto.id());
         sala.setCodigo(dto.codigo());
         sala.setNome(dto.nome());
-        return new SalaDTO(salaRepository.save(sala));
+        return ResponseEntity.ok(new SalaDTO(salaRepository.save(sala)));
     }
 
     public void delete(Long id) {

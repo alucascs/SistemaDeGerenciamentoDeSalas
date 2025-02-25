@@ -3,6 +3,7 @@ package ifba.edu.br.alocacao.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import ifba.edu.br.alocacao.dtos.DisciplinaDTO;
@@ -34,13 +35,21 @@ public class DisciplinaService {
 		return disciplinaRepository.findAll().stream().map(DisciplinaDTO::new).collect(Collectors.toList());
 	}
 
-	public DisciplinaDTO update(DisciplinaDTO dto) {
+	public DisciplinaDTO getByID(long id) {
+		return disciplinaRepository.findById(id)
+			.map(DisciplinaDTO::new)
+			.orElse(null); // Ou pode lançar uma exceção se o ID não for encontrado
+	}
+	
+
+
+	public ResponseEntity<DisciplinaDTO> update(DisciplinaDTO dto) {
 		Disciplina disciplina = new Disciplina();
 		disciplina.setId(dto.id());
 		disciplina.setNome(dto.nome());
 		disciplina.setCodigoTurma(dto.codigoTurma());
 		disciplina.setNomeProfessor(dto.nomeProfessor());
-		return new DisciplinaDTO(disciplinaRepository.save(disciplina));
+		return ResponseEntity.ok(new DisciplinaDTO(disciplinaRepository.save(disciplina)));
 	}
 
 	public void delete(Long id) {

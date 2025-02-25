@@ -1,5 +1,5 @@
 import { API_ALOCACAO } from "../api";
-import {CadastrarUsuario} from "../../rotas/RotasUsuario";
+import {CadastrarUsuario,BuscarProfessores} from "../../rotas/RotasUsuario";
 
 
 
@@ -21,3 +21,18 @@ export async function cadastrarUsuario(dadosCadastro) {
     }
 
 }
+
+export async function buscarProfessores() {
+
+    try {
+       
+        const response = await API_ALOCACAO.get(BuscarProfessores);
+   
+        return response.data;
+
+    } catch (error) {
+        throw error.response ? error.response.data : error.message;
+    }
+
+}
+

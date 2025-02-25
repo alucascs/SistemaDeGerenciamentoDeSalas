@@ -37,8 +37,12 @@ public class DisciplinaController {
         return disciplinaService.findAll();
     }
 
+    @GetMapping("/{id}")
+    public DisciplinaDTO getByID(@PathVariable Long id) {
+        return disciplinaService.getByID(id);
+    }
     @PutMapping
-    public DisciplinaDTO update(@RequestBody DisciplinaDTO dto) {
+    public ResponseEntity<DisciplinaDTO> update(@RequestBody DisciplinaDTO dto) {
         return disciplinaService.update(dto);
     }
 

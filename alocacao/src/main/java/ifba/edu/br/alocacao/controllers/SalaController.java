@@ -43,7 +43,7 @@ public class SalaController {
     }
     
     @PutMapping
-    public SalaDTO update(@RequestBody SalaDTO dto) {
+    public ResponseEntity<SalaDTO> update(@RequestBody SalaDTO dto) {
         return salaService.update(dto);
     }
 
