@@ -4,7 +4,7 @@ import { TabelaAlocacoes } from './components/TabelaAlocacoes';
 import { ListaDisciplinas } from './components/ListaDisciplinas';
 import { vincularDisciplina } from './hooks/VincularDisciplina';
 import { UserContext } from '../../services/context/user';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
 function Home() {
     const { user } = useContext(UserContext);

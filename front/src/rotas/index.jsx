@@ -37,6 +37,8 @@ function Rotas() {
                         </>
                     }
                     />
+                </Route>
+                <Route element={<RotaProtegida requiredRole="PROFESSOR" />}>
                     <Route path="/salas" element={
                         <>
                             <Navbar />
