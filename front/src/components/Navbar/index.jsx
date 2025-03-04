@@ -3,6 +3,9 @@ import { useState, useEffect, useContext } from "react";
 import { UserContext } from '../../services/context/user';
 import "./index.css";
 import Swal from "sweetalert2";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 
 const Navbar = () => {
     const { user } = useContext(UserContext);
@@ -57,6 +60,9 @@ const Navbar = () => {
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/salas">Salas</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/aulas">Aulas</Link>
                                 </li>
                             </>
                         )}

@@ -1,10 +1,10 @@
 import { API_ALOCACAO } from "../api";
-import { CadastrarDisciplina,BuscarDisciplinaByID,ListarDisciplinas,EditarDisciplina,DeletarDisciplina } from "../../rotas/RotasDisciplinas";
+import { CadastrarDisciplina, BuscarDisciplinaByID, ListarDisciplinas, EditarDisciplina, DeletarDisciplina } from "../../rotas/RotasDisciplinas";
 
 export async function cadastrarDisciplina(dadosDisciplina) {
   try {
-    const DisciplinaDTO = { 
-      nome: dadosDisciplina.NomeDisciplina, 
+    const DisciplinaDTO = {
+      nome: dadosDisciplina.NomeDisciplina,
       codigoTurma: dadosDisciplina.CodigoTurma,
       nomeProfessor: dadosDisciplina.NomeProfessor
     };
@@ -18,12 +18,18 @@ export async function cadastrarDisciplina(dadosDisciplina) {
   }
 }
 
-export async function buscarDisciplinas(){
+export async function buscarDisciplinas() {
   try {
 
     const response = await API_ALOCACAO.get(ListarDisciplinas);
     const Lista = response.data;
-    return Lista;
+    if (Lista != "") {
+      return Lista;
+    }
+    else {
+      return [];
+    }
+
 
   }
   catch (error) {
@@ -31,7 +37,7 @@ export async function buscarDisciplinas(){
   }
 }
 
-export async function buscarDisciplinaByID(id){
+export async function buscarDisciplinaByID(id) {
   try {
     const response = await API_ALOCACAO.get(BuscarDisciplinaByID.replace("{id}", id))
     const disciplina = response.data;
@@ -42,10 +48,10 @@ export async function buscarDisciplinaByID(id){
   }
 }
 
-export async function deletarDisciplina(id){
+export async function deletarDisciplina(id) {
   try {
     const response = await API_ALOCACAO.delete(DeletarDisciplina.replace("{id}", id))
- 
+
     return response.status;
 
   } catch (error) {
@@ -53,11 +59,11 @@ export async function deletarDisciplina(id){
   }
 }
 
-export async function editarDisciplina(disciplinaDTO){
+export async function editarDisciplina(disciplinaDTO) {
 
   try {
 
-    const response = await API_ALOCACAO.put(EditarDisciplina,disciplinaDTO);
+    const response = await API_ALOCACAO.put(EditarDisciplina, disciplinaDTO);
     return response;
 
   }

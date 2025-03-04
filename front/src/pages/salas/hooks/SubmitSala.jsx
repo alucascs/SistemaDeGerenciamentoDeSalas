@@ -11,7 +11,7 @@ export function SubmitSala(dadosSala, erros, fetchSalas) {
             try {
                 const response = await cadastrarSala(dadosSala);
 
-                if (response == 200) {
+                if (response == 201) {
                     Swal.fire("Feito", "Sala cadastrada com sucesso!", "success");
             
                     if (fetchSalas) {

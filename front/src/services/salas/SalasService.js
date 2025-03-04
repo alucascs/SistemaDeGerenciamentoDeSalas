@@ -23,7 +23,12 @@ export async function buscarSalas() {
 
     const response = await API_ALOCACAO.get(ListarSalas);
     const Lista = response.data;
-    return Lista;
+
+    if(Lista.length != 0){
+      return Lista;
+
+    }
+    return [];
 
   }
   catch (error) {

@@ -11,7 +11,7 @@ export function SubmitDisciplina(dadosDisciplina, erros, fetchDisciplinas) {
         try {
             const response = await cadastrarDisciplina(dadosDisciplina);
         
-            if (response.status === 200) {  
+            if (response.status === 201) {  
                  Swal.fire("Feito", "Disciplina cadastrada com sucesso!", "success");
               if (fetchDisciplinas) {
                 await fetchDisciplinas();

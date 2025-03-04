@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 import Salas from "../pages/salas/index";
 import Disciplinas from "../pages/disciplinas/index";
 import AlocacoesGerais from "../pages/AlocacoesGerais";
+import Aulas from "../pages/aulas/index";
 
 function Rotas() {
     return (
@@ -50,6 +51,13 @@ function Rotas() {
                         <>
                             <Navbar />
                             <Disciplinas />
+                        </>
+                    }
+                    />
+                      <Route path="/aulas" element={
+                        <>
+                            <Navbar />
+                            <Aulas />
                         </>
                     }
                     />
