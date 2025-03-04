@@ -8,4 +8,5 @@ import ifba.edu.br.alocacao.entities.Aula;
 
 public interface AulaRepository extends JpaRepository<Aula, Long>{
 	List<Aula> findByDisciplinaIdIn(List<Long> ids);
+	List<Aula> findByDisciplinaId(Long disciplinaId);
 }

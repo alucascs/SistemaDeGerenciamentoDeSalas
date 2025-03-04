@@ -7,21 +7,26 @@ import org.springframework.stereotype.Service;
 
 import ifba.edu.br.alocacao.dtos.DisciplinaDTO;
 import ifba.edu.br.alocacao.dtos.UsuarioDTO;
+import ifba.edu.br.alocacao.entities.Aula;
 import ifba.edu.br.alocacao.entities.Disciplina;
 import ifba.edu.br.alocacao.entities.Usuario;
 import ifba.edu.br.alocacao.exceptions.BusinessException;
 import ifba.edu.br.alocacao.exceptions.NotFoundException;
+import ifba.edu.br.alocacao.repository.AulaRepository;
 import ifba.edu.br.alocacao.repository.DisciplinaRepository;
 import ifba.edu.br.alocacao.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class DisciplinaService {
     private final DisciplinaRepository disciplinaRepository;
     private final UsuarioRepository usuarioRepository;
+    private final AulaRepository aulaRepository;
 
-    public DisciplinaService(DisciplinaRepository disciplinaRepository, UsuarioRepository usuarioRepository) {
+    public DisciplinaService(DisciplinaRepository disciplinaRepository, UsuarioRepository usuarioRepository, AulaRepository aulaRepository) {
         this.disciplinaRepository = disciplinaRepository;
         this.usuarioRepository = usuarioRepository;
+        this.aulaRepository = aulaRepository;
     }
 
     public DisciplinaDTO save(DisciplinaDTO dto) {
@@ -58,12 +63,20 @@ public class DisciplinaService {
         return new DisciplinaDTO(disciplinaRepository.save(disciplina));
     }
 
+    @Transactional
     public void delete(Long id) {
-        if (!disciplinaRepository.existsById(id)) {
-            throw new NotFoundException("Disciplina não encontrada com ID: " + id);
-        }
+        Disciplina disciplina = disciplinaRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Disciplina não encontrada com ID: " + id));
+        
+        disciplina.getUsuarios().clear();
+        disciplinaRepository.save(disciplina);
+        
+        List<Aula> aulas = aulaRepository.findByDisciplinaId(id);
+        aulaRepository.deleteAll(aulas);
+        
         disciplinaRepository.deleteById(id);
     }
+
 
     public DisciplinaDTO vincularUsuario(Long disciplinaId, Long usuarioId) {
         Disciplina disciplina = disciplinaRepository.findById(disciplinaId)
