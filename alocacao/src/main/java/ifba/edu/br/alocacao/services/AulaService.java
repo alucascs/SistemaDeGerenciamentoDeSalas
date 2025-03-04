@@ -9,16 +9,19 @@ import ifba.edu.br.alocacao.dtos.AulaDTO;
 import ifba.edu.br.alocacao.entities.Aula;
 import ifba.edu.br.alocacao.entities.Disciplina;
 import ifba.edu.br.alocacao.entities.Sala;
+import ifba.edu.br.alocacao.exceptions.BusinessException;
+import ifba.edu.br.alocacao.exceptions.NotFoundException;
 import ifba.edu.br.alocacao.repository.AulaRepository;
 import ifba.edu.br.alocacao.repository.DisciplinaRepository;
 import ifba.edu.br.alocacao.repository.SalaRepository;
 
 @Service
 public class AulaService {
+
     private final AulaRepository aulaRepository;
     private final SalaRepository salaRepository;
     private final DisciplinaRepository disciplinaRepository;
-    
+
     public AulaService(AulaRepository aulaRepository, SalaRepository salaRepository, DisciplinaRepository disciplinaRepository) {
         this.aulaRepository = aulaRepository;
         this.salaRepository = salaRepository;
@@ -26,27 +29,38 @@ public class AulaService {
     }
 
     public AulaDTO alocarAula(AulaDTO dto) {
-    	Disciplina disciplina = disciplinaRepository.findById(dto.disciplina().id())
-                .orElseThrow(() -> new RuntimeException("Disciplina não encontrada"));
+        Disciplina disciplina = disciplinaRepository.findById(dto.disciplina().id())
+                .orElseThrow(() -> new NotFoundException("Disciplina não encontrada com ID: " + dto.disciplina().id()));
+
         Sala sala = salaRepository.findById(dto.sala().id())
-                .orElseThrow(() -> new RuntimeException("Sala não encontrada"));
+                .orElseThrow(() -> new NotFoundException("Sala não encontrada com ID: " + dto.sala().id()));
 
         if (conflitoDeHorario(dto)) {
-            throw new RuntimeException("Conflito de horário detectado");
+            throw new BusinessException("Conflito de horário detectado para a sala informada.");
         }
+
         Aula aula = new Aula(null, disciplina, sala, dto.diaSemana(), dto.horarioInicio(), dto.duracao());
         return new AulaDTO(aulaRepository.save(aula));
     }
 
     public List<AulaDTO> listarAulas() {
-        return aulaRepository.findAll().stream().map(AulaDTO::new).collect(Collectors.toList());
+        List<Aula> aulas = aulaRepository.findAll();
+        return aulas.stream().map(AulaDTO::new).collect(Collectors.toList());
     }
-    
+
     public List<AulaDTO> listarAulasPorDisciplinas(List<Long> disciplinasIds) {
-    	return aulaRepository.findByDisciplinaIdIn(disciplinasIds).stream().map(AulaDTO::new).toList();
+        if (disciplinasIds == null || disciplinasIds.isEmpty()) {
+            throw new BusinessException("A lista de IDs de disciplinas não pode ser vazia.");
+        }
+
+        List<Aula> aulas = aulaRepository.findByDisciplinaIdIn(disciplinasIds);
+        return aulas.stream().map(AulaDTO::new).toList();
     }
 
     public void excluirAula(Long id) {
+        if (!aulaRepository.existsById(id)) {
+            throw new NotFoundException("Aula não encontrada com ID: " + id);
+        }
         aulaRepository.deleteById(id);
     }
 
@@ -62,5 +76,4 @@ public class AulaService {
             )
         );
     }
-
 }

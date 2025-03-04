@@ -8,54 +8,73 @@ import ifba.edu.br.alocacao.dtos.DisciplinaDTO;
 import ifba.edu.br.alocacao.dtos.UsuarioDTO;
 import ifba.edu.br.alocacao.entities.Role;
 import ifba.edu.br.alocacao.entities.Usuario;
+import ifba.edu.br.alocacao.exceptions.NotFoundException;
 import ifba.edu.br.alocacao.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UsuarioService {
-	private final UsuarioRepository usuarioRepository;
-	private final PasswordEncoder passwordEncoder;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-	public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
-		this.usuarioRepository = usuarioRepository;
-		this.passwordEncoder = passwordEncoder;
-	}
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
-	public UsuarioDTO save(UsuarioDTO dto) {
-		Usuario usuario = new Usuario();
-		usuario.setEmail(dto.email());
-		usuario.setPassword(passwordEncoder.encode(dto.password()));
-		usuario.setRole(dto.role());
-		usuario.setNome(dto.nome());
-		return new UsuarioDTO(usuarioRepository.save(usuario));
-	}
+    @Transactional
+    public UsuarioDTO save(UsuarioDTO dto) {
+        Usuario usuario = new Usuario();
+        usuario.setEmail(dto.email());
+        usuario.setPassword(passwordEncoder.encode(dto.password()));
+        usuario.setRole(dto.role());
+        usuario.setNome(dto.nome());
+        return new UsuarioDTO(usuarioRepository.save(usuario));
+    }
 
-	public UsuarioDTO update(UsuarioDTO dto) {
-		Usuario usuario = usuarioRepository.findById(dto.id()).orElseThrow();
-		usuario.setEmail(dto.email());
+    @Transactional
+    public UsuarioDTO update(UsuarioDTO dto) {
+        Usuario usuario = usuarioRepository.findById(dto.id())
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado com ID: " + dto.id()));
 
-		if (dto.password() != null && !dto.password().isEmpty()) {
-			usuario.setPassword(passwordEncoder.encode(dto.password()));
-		}
+        usuario.setEmail(dto.email());
 
-		usuario.setRole(dto.role());
-		return new UsuarioDTO(usuarioRepository.save(usuario));
-	}
+        if (dto.password() != null && !dto.password().isEmpty()) {
+            usuario.setPassword(passwordEncoder.encode(dto.password()));
+        }
+
+        usuario.setRole(dto.role());
+        usuario.setNome(dto.nome());
+
+        return new UsuarioDTO(usuarioRepository.save(usuario));
+    }
 
     public List<UsuarioDTO> findAll() {
-        return usuarioRepository.findAll().stream().map(UsuarioDTO::new).toList();
+        return usuarioRepository.findAll().stream()
+                .map(UsuarioDTO::new)
+                .toList();
     }
 
-
+    @Transactional
     public void delete(Long id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new NotFoundException("Usuário não encontrado com ID: " + id);
+        }
         usuarioRepository.deleteById(id);
     }
-    
-    public List<DisciplinaDTO> getDisciplinasByUsuario(Long usuarioId) {
-		Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow();
-		return usuario.getDisciplinas().stream().map(DisciplinaDTO::new).toList();
-	}
 
-	public List<UsuarioDTO> findAllProfessores() {
-		return usuarioRepository.findByRole(Role.PROFESSOR).stream().map(UsuarioDTO::new).toList();
-	}
+    public List<DisciplinaDTO> getDisciplinasByUsuario(Long usuarioId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado com ID: " + usuarioId));
+
+        return usuario.getDisciplinas().stream()
+                .map(DisciplinaDTO::new)
+                .toList();
+    }
+
+    public List<UsuarioDTO> findAllProfessores() {
+        return usuarioRepository.findByRole(Role.PROFESSOR).stream()
+                .map(UsuarioDTO::new)
+                .toList();
+    }
 }

@@ -2,6 +2,7 @@ package ifba.edu.br.alocacao.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,22 +29,30 @@ public class DisciplinaController {
     }
 
     @PostMapping
-    public DisciplinaDTO create(@RequestBody DisciplinaDTO dto) {
-        return disciplinaService.save(dto);
+    public ResponseEntity<DisciplinaDTO> create(@RequestBody DisciplinaDTO dto) {
+        DisciplinaDTO created = disciplinaService.save(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping
-    public List<DisciplinaDTO> getAll() {
-        return disciplinaService.findAll();
+    public ResponseEntity<List<DisciplinaDTO>> getAll() {
+        List<DisciplinaDTO> disciplinas = disciplinaService.findAll();
+        if (disciplinas.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(disciplinas);
     }
 
     @GetMapping("/{id}")
-    public DisciplinaDTO getByID(@PathVariable Long id) {
-        return disciplinaService.getByID(id);
+    public ResponseEntity<DisciplinaDTO> getByID(@PathVariable Long id) {
+        DisciplinaDTO dto = disciplinaService.getByID(id);
+        return ResponseEntity.ok(dto);
     }
+
     @PutMapping
     public ResponseEntity<DisciplinaDTO> update(@RequestBody DisciplinaDTO dto) {
-        return disciplinaService.update(dto);
+        DisciplinaDTO updated = disciplinaService.update(dto);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
@@ -51,19 +60,26 @@ public class DisciplinaController {
         disciplinaService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    
+
     @PostMapping("/{disciplinaId}/usuarios/{usuarioId}")
-    public DisciplinaDTO vincularUsuario(@PathVariable Long disciplinaId, @PathVariable Long usuarioId) {
-        return disciplinaService.vincularUsuario(disciplinaId, usuarioId);
+    public ResponseEntity<DisciplinaDTO> vincularUsuario(@PathVariable Long disciplinaId, @PathVariable Long usuarioId) {
+        DisciplinaDTO updated = disciplinaService.vincularUsuario(disciplinaId, usuarioId);
+        return ResponseEntity.ok(updated);
     }
-    
+
     @DeleteMapping("/{disciplinaId}/usuarios/{usuarioId}")
-    public DisciplinaDTO desvincularUsuario(@PathVariable Long disciplinaId, @PathVariable Long usuarioId) {
-        return disciplinaService.desvincularUsuario(disciplinaId, usuarioId);
+    public ResponseEntity<DisciplinaDTO> desvincularUsuario(@PathVariable Long disciplinaId, @PathVariable Long usuarioId) {
+        DisciplinaDTO updated = disciplinaService.desvincularUsuario(disciplinaId, usuarioId);
+        return ResponseEntity.ok(updated);
     }
-    
+
     @GetMapping("/{id}/usuarios")
-    public List<UsuarioDTO> getUsuariosByDisciplina(@PathVariable Long id) {
-        return disciplinaService.getUsuariosByDisciplina(id);
+    public ResponseEntity<List<UsuarioDTO>> getUsuariosByDisciplina(@PathVariable Long id) {
+        List<UsuarioDTO> usuarios = disciplinaService.getUsuariosByDisciplina(id);
+        if (usuarios.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(usuarios);
     }
 }
+
