@@ -19,7 +19,7 @@ import ifba.edu.br.alocacao.entities.EmailType;
 import ifba.edu.br.alocacao.dtos.DisciplinaDTO;
 import ifba.edu.br.alocacao.dtos.UsuarioDTO;
 import ifba.edu.br.alocacao.services.DisciplinaService;
-import ifba.edu.br.alocacao.services.EmailService;
+// import ifba.edu.br.alocacao.services.EmailService;
 
 @RestController
 @RequestMapping("/disciplinas")
@@ -27,8 +27,8 @@ import ifba.edu.br.alocacao.services.EmailService;
 public class DisciplinaController {
     private final DisciplinaService disciplinaService;
     
-    @Autowired
-    private EmailService emailService;
+    // @Autowired
+    // private EmailService emailService;
 
     public DisciplinaController(DisciplinaService disciplinaService) {
         this.disciplinaService = disciplinaService;
@@ -70,14 +70,14 @@ public class DisciplinaController {
     @PostMapping("/{disciplinaId}/usuarios/{usuarioId}")
     public ResponseEntity<DisciplinaDTO> vincularUsuario(@PathVariable Long disciplinaId, @PathVariable Long usuarioId) {
         DisciplinaDTO updated = disciplinaService.vincularUsuario(disciplinaId, usuarioId);
-        emailService.notificarUsuario(usuarioId, disciplinaId,EmailType.USUARIO_VINCULADO);
+        // emailService.notificarUsuario(usuarioId, disciplinaId,EmailType.USUARIO_VINCULADO);
         return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{disciplinaId}/usuarios/{usuarioId}")
     public ResponseEntity<DisciplinaDTO> desvincularUsuario(@PathVariable Long disciplinaId, @PathVariable Long usuarioId) {
         DisciplinaDTO updated = disciplinaService.desvincularUsuario(disciplinaId, usuarioId);
-        emailService.notificarUsuario(usuarioId, disciplinaId,EmailType.USUARIO_DESVINCULADO);
+        // emailService.notificarUsuario(usuarioId, disciplinaId,EmailType.USUARIO_DESVINCULADO);
         return ResponseEntity.ok(updated);
     }
 

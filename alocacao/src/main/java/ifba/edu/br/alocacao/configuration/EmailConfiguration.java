@@ -8,8 +8,8 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
-@EnableRabbit
+// @Configuration
+// @EnableRabbit
 public class EmailConfiguration {
 	 @Bean
 	    public Queue emailQueue() {
