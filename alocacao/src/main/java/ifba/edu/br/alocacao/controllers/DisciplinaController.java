@@ -2,6 +2,7 @@ package ifba.edu.br.alocacao.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,15 +15,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ifba.edu.br.alocacao.entities.EmailType;
 import ifba.edu.br.alocacao.dtos.DisciplinaDTO;
 import ifba.edu.br.alocacao.dtos.UsuarioDTO;
 import ifba.edu.br.alocacao.services.DisciplinaService;
+import ifba.edu.br.alocacao.services.EmailService;
 
 @RestController
 @RequestMapping("/disciplinas")
 @CrossOrigin(origins = "*")
 public class DisciplinaController {
     private final DisciplinaService disciplinaService;
+    
+    @Autowired
+    private EmailService emailService;
 
     public DisciplinaController(DisciplinaService disciplinaService) {
         this.disciplinaService = disciplinaService;
@@ -64,12 +70,14 @@ public class DisciplinaController {
     @PostMapping("/{disciplinaId}/usuarios/{usuarioId}")
     public ResponseEntity<DisciplinaDTO> vincularUsuario(@PathVariable Long disciplinaId, @PathVariable Long usuarioId) {
         DisciplinaDTO updated = disciplinaService.vincularUsuario(disciplinaId, usuarioId);
+        emailService.notificarUsuario(usuarioId, disciplinaId,EmailType.USUARIO_VINCULADO);
         return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{disciplinaId}/usuarios/{usuarioId}")
     public ResponseEntity<DisciplinaDTO> desvincularUsuario(@PathVariable Long disciplinaId, @PathVariable Long usuarioId) {
         DisciplinaDTO updated = disciplinaService.desvincularUsuario(disciplinaId, usuarioId);
+        emailService.notificarUsuario(usuarioId, disciplinaId,EmailType.USUARIO_DESVINCULADO);
         return ResponseEntity.ok(updated);
     }
 
