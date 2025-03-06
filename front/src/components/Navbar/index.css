@@ -118,3 +118,51 @@
 .navbar-toggler-icon {
   filter: invert(1);
 }
+
+.custom-shepherd-step {
+  background-color: #ffffff;
+  border: 2px solid #007bff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  color: #333;
+  font-family: 'Arial', sans-serif;
+}
+
+.custom-shepherd-step-header {
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: #007bff;
+  margin-bottom: 8px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 4px;
+}
+
+.custom-shepherd-step-footer {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.custom-shepherd-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.custom-shepherd-button:hover {
+  background-color: #0056b3;
+}
+
+.shepherd-text strong {
+  color: #007bff;
+}
+
+.shepherd-text a {
+  color: #28a745;
+  text-decoration: underline;
+}
