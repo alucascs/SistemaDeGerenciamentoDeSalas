@@ -1,5 +1,5 @@
 import { API_ALOCACAO } from "../api";
-import { ListarAulas, ListarAulasPorDisciplinas, AlocarAula, ExcluirAula } from "../../rotas/RotasAulas";
+import { ListarAulas, ListarAulasPorDisciplinas, AlocarAula, ExcluirAula,BuscarAulaByID, EditarAula } from "../../rotas/RotasAulas";
 
 export async function cadastrarAula(dadosAula) {
     try {
@@ -32,6 +32,43 @@ export async function buscarAulas() {
           return [];
         }
 
+    } catch (error) {
+        throw error.response ? error.response.data : error.message;
+    }
+
+}
+
+export async function buscarAulaById(id) {
+    try { 
+        const response = await API_ALOCACAO.get(BuscarAulaByID.replace("{id}", id));
+        const aula = response.data;
+        if (aula != "") {
+          return aula;
+        }
+        else {
+          return [];
+        }
+
+    } catch (error) {
+        throw error.response ? error.response.data : error.message;
+    }
+
+}
+
+export async function editarAula(aulaDTO) {
+    try { 
+        const response = await API_ALOCACAO.put(EditarAula, aulaDTO);
+       return response.status;
+    } catch (error) {
+        throw error.response ? error.response.data : error.message;
+    }
+
+}
+
+export async function deletarAula(id) {
+    try { 
+        const response = await API_ALOCACAO.delete(ExcluirAula.replace("{id}", id));
+       return response.status;
     } catch (error) {
         throw error.response ? error.response.data : error.message;
     }

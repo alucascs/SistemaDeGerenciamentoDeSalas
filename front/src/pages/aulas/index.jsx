@@ -1,13 +1,15 @@
 
 import { useDisciplinas } from "../disciplinas/hooks/AcoesDisciplinas";
-import {useAulas} from "./hooks/AulaAcoes";
-import {useSalas} from "../salas/hooks/AcoesSalas";
-import {SubmitAula} from "./hooks/SubmitAula";
-import {AulaValidacao} from "./hooks/AulaValidacao";
+import { useAulas } from "./hooks/AulaAcoes";
+import { useSalas } from "../salas/hooks/AcoesSalas";
+import { SubmitAula } from "./hooks/SubmitAula";
+import { AulaValidacao } from "./hooks/AulaValidacao";
 import { BiPen } from "react-icons/bi";
 import styles from "./styles.module.css";
 import { BiTrash } from "react-icons/bi";
 import classNames from "classnames";
+import { SwalEditarAula } from "./hooks/AulaAcoes";
+import { SwalDeletarAula } from "./hooks/AulaAcoes";
 
 
 function Aulas() {
@@ -72,14 +74,20 @@ function Aulas() {
                             )}
 
 
-                            <input
+                            <select
                                 className={styles.inputLogin}
-                                type="time" 
-                                name="HoraInicio" 
-                                placeholder="Hora de Início"
-                                value={dadosAula.HoraInicio} 
-                                onChange={handleChangeAula} 
-                            />
+                                name="HoraInicio"
+                                value={dadosAula.HoraInicio}
+                                onChange={handleChangeAula}
+                            >
+                                <option value="">Selecione a Hora de inicio</option>
+                                <option value="17:00">17:00</option>
+                                <option value="17:50">17:50</option>
+                                <option value="18:40">18:40</option>
+                                <option value="19:30">19:30</option>
+                                <option value="20:20">20:20</option>
+                                <option value="21:10">21:10</option>
+                            </select>
 
                             {errosAula.HoraInicio && (
                                 <span className={styles.spanLogin} style={{ color: 'red' }}>
@@ -88,33 +96,34 @@ function Aulas() {
                             )}
 
 
+
                             <select
-                                className={styles.inputLogin} 
+                                className={styles.inputLogin}
                                 name="Duracao"
                                 value={dadosAula.Duracao}
                                 onChange={handleChangeAula}
                             >
                                 <option value=""> Selecione uma Duração</option>
-                            
-                                    <option  value="50">
-                                        50 minutos
-                                    </option>
-                                    <option  value="100">
-                                        100 minutos
-                                    </option>
-                                    <option  value="150">
-                                        150 minutos
-                                    </option>
-                                    <option  value="200">
-                                        200 minutos
-                                    </option>
-                                    <option  value="250">
-                                        250 minutos
-                                    </option>
-                                    <option  value="300">
-                                        300 minutos
-                                    </option>
-                               
+
+                                <option value="50">
+                                    50 minutos
+                                </option>
+                                <option value="100">
+                                    100 minutos
+                                </option>
+                                <option value="150">
+                                    150 minutos
+                                </option>
+                                <option value="200">
+                                    200 minutos
+                                </option>
+                                <option value="250">
+                                    250 minutos
+                                </option>
+                                <option value="300">
+                                    300 minutos
+                                </option>
+
                             </select>
 
                             {errosAula.Duracao && (
@@ -124,32 +133,32 @@ function Aulas() {
                             )}
 
                             <select
-                                className={styles.inputLogin} 
+                                className={styles.inputLogin}
                                 name="DiaSemana"
                                 value={dadosAula.DiaSemana}
                                 onChange={handleChangeAula}
                             >
                                 <option value="">Selecione um Dia</option>
-                            
-                                    <option  value="SEGUNDA">
-                                        Segunda-Feira
-                                    </option>
-                                    <option  value="TERÇA">
-                                        Terça-Feira
-                                    </option>
-                                    <option  value="QUARTA">
-                                        Quarta-Feira
-                                    </option>
-                                    <option  value="QUINTA">
-                                        Quinta-Feira
-                                    </option>
-                                    <option  value="SEXTA">
-                                        Sexta-Feira
-                                    </option>
-                                    <option  value="SABADO">
-                                        Sábado
-                                    </option>
-                               
+
+                                <option value="SEGUNDA">
+                                    Segunda-Feira
+                                </option>
+                                <option value="TERÇA">
+                                    Terça-Feira
+                                </option>
+                                <option value="QUARTA">
+                                    Quarta-Feira
+                                </option>
+                                <option value="QUINTA">
+                                    Quinta-Feira
+                                </option>
+                                <option value="SEXTA">
+                                    Sexta-Feira
+                                </option>
+                                <option value="SABADO">
+                                    Sábado
+                                </option>
+
                             </select>
 
                             {errosAula.DiaSemana && (
@@ -189,14 +198,14 @@ function Aulas() {
                                     <tr key={Aula.id}>
                                         <td>{Aula.id}</td>
                                         <td>{Aula.disciplina.nome + " - " + Aula.disciplina.codigoTurma}</td>
-                                        <td>{Aula.sala.nome +" - "+ Aula.sala.codigo}</td>
-                                        <td>{Aula.disciplina.nomeProfessor}</td> 
-                                        <td>{Aula.diaSemana}</td>     
+                                        <td>{Aula.sala.nome + " - " + Aula.sala.codigo}</td>
+                                        <td>{Aula.disciplina.nomeProfessor}</td>
+                                        <td>{Aula.diaSemana}</td>
                                         <td>{Aula.horarioInicio}</td>
                                         <td>{Aula.duracao}</td>
-                                  
-                                        <td> <button type="button" className="btn btn-info" onClick={() => SwalEditarAula(Aula.id, fetchAulas, Aulas)}> <BiPen size={18}></BiPen> </button></td>
-                                        <td> <button type="button" className="btn btn-danger" onClick={() => SwalDeletarAula(Aula.id, fetchAulas)}> <BiTrash size={18}></BiTrash> </button></td>
+
+                                        <td> <button type="button" className="btn btn-info" onClick={() => SwalEditarAula(Aula.id, fetchAulas, salas, disciplinas)}> <BiPen size={18}></BiPen> </button></td>
+                                        <td> <button type="button" className="btn btn-danger" onClick={() => SwalDeletarAula(Aula.id, fetchAulas,salas, disciplinas)}> <BiTrash size={18}></BiTrash> </button></td>
                                     </tr>
                                 ))}
                             </tbody>

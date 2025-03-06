@@ -11,7 +11,7 @@ export function SubmitAula(dadosAula, erros, fetchAulas) {
         try {
             const response = await cadastrarAula(dadosAula);
         
-            if (response.status === 201) {  
+            if (response == 201) {  
                  Swal.fire("Feito", "Aula cadastrada com sucesso!", "success");
 
               if (fetchAulas) {

@@ -64,6 +64,37 @@ public class AulaService {
         aulaRepository.deleteById(id);
     }
 
+    public AulaDTO buscarAulaPorId(Long id) {
+        Aula aula = aulaRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Aula não encontrada com ID: " + id));
+        return new AulaDTO(aula);
+    }
+
+    public AulaDTO atualizarAula(AulaDTO dto) {
+        if(conflitoDeHorario(dto)){
+            throw new BusinessException("Conflito de horário detectado para a sala informada.");
+        }       
+        Aula aula = aulaRepository.findById(dto.id())
+                .orElseThrow(() -> new NotFoundException("Aula não encontrada com ID: " + dto.id()));
+    
+        Disciplina disciplina = disciplinaRepository.findById(dto.disciplina().id())
+                .orElseThrow(() -> new NotFoundException("Disciplina não encontrada com ID: " + dto.disciplina().id()));
+    
+        Sala sala = salaRepository.findById(dto.sala().id())
+                .orElseThrow(() -> new NotFoundException("Sala não encontrada com ID: " + dto.sala().id()));
+        
+    
+        aula.setDisciplina(disciplina);
+        aula.setSala(sala);
+        aula.setDiaSemana(dto.diaSemana());
+        aula.setHorarioInicio(dto.horarioInicio());
+        aula.setDuracao(dto.duracao());
+        
+        Aula aulaAtualizada = aulaRepository.save(aula);
+        return new AulaDTO(aulaAtualizada);
+    }
+    
+
     private boolean conflitoDeHorario(AulaDTO dto) {
         List<Aula> aulasNaSala = aulaRepository.findAll();
 

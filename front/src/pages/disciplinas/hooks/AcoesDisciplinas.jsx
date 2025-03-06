@@ -47,7 +47,7 @@ export async function SwalEditarDisciplina(id,fetchDisciplina,professores) {
   `).join('');
 
   Swal.fire({
-    title: 'Editar Disciplina',
+    title: 'Editar Disciplina', 
     html: `
       <div class="${styles.formGroup}">
         <label for="nome" class="${styles.label}">Nome da Disciplina</label>

@@ -5,6 +5,9 @@ import { ListarDisciplinas, VincularDesvincularUsuario } from "../../../rotas/Ro
 export async function vincularDisciplina(user, disciplinasAtuais, setReloadDisciplinas) {
     try {
         const response = await API_ALOCACAO.get(ListarDisciplinas);
+        if (response.data.length ==0) {
+            return Swal.fire("Atenção", "Nenhuma disciplina disponível!", "info");
+        }
         const disciplinas = response.data.filter(disc =>
             !disciplinasAtuais.some(atual => atual.id === disc.id)
         );
