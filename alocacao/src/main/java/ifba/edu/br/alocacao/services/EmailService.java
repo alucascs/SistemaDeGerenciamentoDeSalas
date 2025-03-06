@@ -53,10 +53,10 @@ public class EmailService {
 	        
 	        try {
 	            SimpleMailMessage message = new SimpleMailMessage();
-	            message.setFrom(dto.mailFrom());
-	            message.setTo(dto.mailTo());
-	            message.setSubject(dto.mailSubject());
-	            message.setText(dto.mailText());
+	            message.setFrom(email.getMailFrom());
+	            message.setTo(email.getMailTo());
+	            message.setSubject(email.getMailSubject());
+	            message.setText(email.getMailText());
 	            emailSender.send(message);
 	            email.setStatus(EmailStatus.SENT);
 	        } catch (Exception e) {
@@ -69,7 +69,7 @@ public class EmailService {
 	    public void notificarUsuario(Long usuarioId,Long disciplinaId, EmailType emailType) {
 	        Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow(() ->new NotFoundException("Usuário não encontrado com ID: " + usuarioId));
 	        Disciplina disciplina = disciplinaRepository.findById(disciplinaId).orElseThrow(() ->new NotFoundException("Disciplina não encontrada com ID: " + disciplinaId));
-	    	EmailDTO emailDTO = new EmailDTO("secretaria@universidade.com",
+	    	EmailDTO emailDTO = new EmailDTO("sgsifba@gmail.com",
 	    			usuario.getEmail(),
 	    			disciplina.getNome(),
 	    			"",
